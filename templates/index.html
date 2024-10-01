@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Home - Pet Store {% endblock %}
+
+{% block content %}
+
+{% if user %}
+<h1>Hello {{ user.email }}, Welcome to the Pet Store!</h1>
+{% endif %}
+
+
+<form id="logout-form" action="{% url 'logout' %}" method="POST">
+  {% csrf_token %}
+  <button type="submit">Logout</button>
+</form>
+
+<p>Available pets: </p>
+
+{% if pets_list %}
+<ul>
+    {% for pet in pets_list %}
+    <a href="{% url 'pet_detail' pet.id %}"> 
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="{{ pet.image.url }}" class="img-fluid rounded-start" alt="{{ pet.name  }}">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{ pet.name|title  }}</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+</ul>
+{% else%}
+<p> No pets available.</p>
+{% endif %}
+
+{% endblock %}
+
+
+
